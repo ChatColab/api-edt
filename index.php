@@ -5,5 +5,7 @@ require 'includes/temp.php';
 require 'includes/pdo.php';
 //require 'authorization.php';
 
+Flight::set('pdo', $pdo);
+
 Flight::start();
 ?>

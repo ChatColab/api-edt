@@ -2,21 +2,21 @@
 require 'pdo.php';
 
 //fonction d'éxécution de la requête
-function executeRequest(){
+function executeRequest($sql, $params = null) {
     if ($params == null) {
-        $result = $pdo->query($sql);    // exécution directe
+        $result = Flight::get('pdo')->query($sql);    // exécution directe
     } else {
-        $result = $pdo->prepare($sql);  // requête préparée
+        $result = Flight::get('pdo')->prepare($sql);  // requête préparée
         $result->execute($params);
     }
-    return $result;
+    return $result->fetchAll();
 }
 
 function executeRequestJson($sql, $params = null) {
     if ($params == null) {
-        $result = $pdo->query($sql);    // exécution directe
+        $result = Flight::get('pdo')->query($sql);    // exécution directe
     } else {
-        $result = $pdo->prepare($sql);  // requête préparée
+        $result = Flight::get('pdo')->prepare($sql);  // requête préparée
         $result->execute($params);
     }
     //return as json
@@ -29,9 +29,9 @@ function getRole($token){
     return executeRequest($sql, array($token));
 }
 
-function getUserId($token){
-    $sql = "";
-    return executeRequest($sql, array($token));
+function getUserIdByToken($token){
+    $sql = "select id_utilisateur from utilisateurs where token_utilisateur = :token";
+    return executeRequest($sql, array('token' => $token));
 }
 
 function getEDT($user_id, $week = null, $day = null): string

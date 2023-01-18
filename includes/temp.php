@@ -20,8 +20,8 @@ if ($perm == 3){
     });
 
     Flight::route('GET /bonjour', function () {
-        $iddececonnard = getUserId("1234568");
-        echo $iddececonnard;
+        $iddececonnard = getUserIdByToken("1234568");
+        Flight::json($iddececonnard);
     });
 
 }
