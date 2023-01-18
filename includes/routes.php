@@ -1,9 +1,14 @@
 <?php
-require 'requests.php';
 
 if (Flight::get('permUser') >= 0 && Flight::get('permUser') != 3){
 
+
+
     if (Flight::get('permUser') >= 1){
+
+        Flight::route('GET /', function () {
+            echo 'Hello World!';
+        });
 
         // TODO : la semaine courrante si pas de paramètre
 //        Flight::route('GET /edt', function () {
@@ -31,11 +36,7 @@ if (Flight::get('permUser') >= 0 && Flight::get('permUser') != 3){
 
 if (Flight::get('permUser') == 3){
     //routes accessibles à un admin
-    Flight::route('GET /utilisateurs', function () {
-        $json = getUtilisateurs();
-        Flight::json($json);
+    Flight::route('GET /admin', function () {
+        echo "admin";
     });
 }
-
-
-?>

@@ -1,14 +1,19 @@
 <?php
-require 'includes/flight-master/flight/Flight.php';
-//require 'includes/temp.php';
-//require 'includes/routes.php';
-require 'includes/pdo.php';
-require 'includes/authorization.php';
 
-Flight::set('pdo', $pdo);
+//tokens
+//admin : 1234568
+//professur : 1234569
+//etudiant : 1234591
+
+require 'includes/flight-master/flight/Flight.php';
+
+Flight::set('permUser', 0);
+
+require 'includes/authorization.php';
+require 'includes/pdo.php';
 
 setPermUser();
 
-Flight::start();
+require 'includes/routes.php';
 
-?>
+Flight::start();

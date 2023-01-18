@@ -51,15 +51,3 @@ function setPermUser(){
     }
 
 }
-
-//Flight::route('GET /', function () {
-//    if (Flight::get('permUser') == 1){
-//        $codeRetour = 200;
-//        $iddececonnard = getUserIdByToken("1234568");
-//        Flight::json($iddececonnard, $codeRetour);
-//    }
-//    else{
-//        $codeRetour = 403;
-//        Flight::json("bonjour", $codeRetour);
-//    }
-//});
