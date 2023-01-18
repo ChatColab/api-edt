@@ -17,3 +17,7 @@ setPermUser();
 require 'includes/routes.php';
 
 Flight::start();
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 526ac447c3d8d53da6556f25fe74cdec08c5026a
