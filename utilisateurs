@@ -1,0 +1,108 @@
+# UTILISATEURS
+
+# Professeur et Administration
+
+INSERT INTO utilisateurs VALUES (1, '1234568', 'Sylvie', 'Fares', 7, 1, 1, 1);
+INSERT INTO utilisateurs VALUES (2, '1234569', 'Sylvie', 'Fares', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (3, '1234570', 'Laurent', 'Delahoche', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (4, '1234571', 'Jean-Baptiste', 'Masson', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (5, '1234572', 'Sandrine', 'Lelievre', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (6, '1234573', 'Arnaud', 'Clerentin', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (7, '1234574', 'David', 'Durand', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (8, '1234575', 'Alexandre', 'Carpentier', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (9, '1234576', 'Laurent', 'Herjean', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (10, '1234577', 'Christophe', 'Loge', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (11, '1234578', 'Bruno', 'Marhic', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (12, '1234579', 'Eric', 'Brassart', 7, 1, 1, 1);
+INSERT INTO utilisateurs VALUES (13, '1234580', 'Eric', 'Brassart', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (14, '1234581', 'Amel', 'Sghaier', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (15, '1234582', 'Chantal', 'Bielawski', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (16, '1234583', 'Pascal', 'Bourde', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (17, '1234584', 'Kevin', 'Pecro', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (18, '1234585', 'Frédérique', 'Horen', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (19, '1234586', 'Brigitte', 'Kervella', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (20, '1234587', 'Claude', 'Pegard', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (21, '1234588', 'Bastien', 'Roussel', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (22, '1234589', 'Corinne', 'Vasseur-Lucet', 7, 1, 2, 1);
+INSERT INTO utilisateurs VALUES (23, '1234590', 'Samuel', 'Petite', 7, 1, 2, 1);
+
+# G1.1
+
+INSERT INTO utilisateurs VALUES (24, '1234591', 'Ann', 'Osterberg', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (25, '1234592', 'Kenneth', 'Williams', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (26, '1234593', 'Gregory', 'Cathey', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (27, '1234594', 'Wallace', 'Meyers', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (28, '1234595', 'Juan', 'Coats', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (29, '1234596', 'Amy', 'Avila', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (30, '1234597', 'Patricia', 'Wilson', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (31, '1234598', 'Sara', 'Muellerleile', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (32, '1234599', 'Caren', 'Shippee', 10, 8, 3, 1);
+INSERT INTO utilisateurs VALUES (33, '1234600', 'Hazel', 'Cummings', 10, 8, 3, 1);
+
+# G1.2
+
+INSERT INTO utilisateurs VALUES (34, '1234601', 'David', 'Merritt', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (35, '1234602', 'Sherilyn', 'Rhoden', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (36, '1234603', 'Alberto', 'Lovell', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (37, '1234604', 'Luther', 'Gagne', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (38, '1234605', 'Benjamin', 'White', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (39, '1234606', 'Scott', 'Rodgers', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (40, '1234607', 'Christine', 'Papa', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (41, '1234608', 'Michael', 'Komp', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (42, '1234609', 'Brad', 'Carter', 10, 9, 3, 1);
+INSERT INTO utilisateurs VALUES (43, '1234610', 'Gerald', 'Rossi', 10, 9, 3, 1);
+
+# G2
+
+INSERT INTO utilisateurs VALUES (44, '1234611', 'Donna', 'Mason', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (45, '1234612', 'Margaret', 'Thompson', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (46, '1234613', 'Cheryl', 'Hernandez', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (47, '1234614', 'Deborah', 'Wheatley', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (48, '1234615', 'Suzanne', 'Elliott', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (49, '1234616', 'Dale', 'Glandon', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (50, '1234617', 'Jacqueline', 'Musselman', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (51, '1234618', 'George', 'Mccray', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (52, '1234619', 'David', 'Johnson', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (53, '1234620', 'John', 'Baker', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (54, '1234621', 'Desiree', 'Luna', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (55, '1234622', 'Rita', 'Deininger', 10, 4, 3, 1);
+INSERT INTO utilisateurs VALUES (56, '1234623', 'Larry', 'Dougherty', 10, 4, 3, 1);
+# G3
+
+INSERT INTO utilisateurs VALUES (57, '1234624', 'Hang', 'Crawford', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (58, '1234625', 'Kathie', 'Cook', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (59, '1234626', 'Katie', 'Frost', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (60, '1234627', 'Juan', 'Austin', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (61, '1234628', 'Bobby', 'Appell', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (62, '1234629', 'Rhea', 'Vankeuren', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (63, '1234630', 'Casandra', 'Reardon', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (64, '1234631', 'Jason', 'Lore', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (65, '1234632', 'Lois', 'Howell', 10, 5, 3, 1);
+INSERT INTO utilisateurs VALUES (66, '1234633', 'Monica', 'Fulmer', 10, 5, 3, 1);
+
+# G4
+
+INSERT INTO utilisateurs VALUES (67, '1234634', 'Jeremy', 'Perrotta', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (68, '1234635', 'Richard', 'Foti', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (69, '1234636', 'Raymond', 'Brown', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (70, '1234637', 'Sarah', 'Delvalle', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (71, '1234638', 'Cynthia', 'Tomlinson', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (72, '1234639', 'Sharon', 'Medrano', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (73, '1234640', 'Sean', 'Mcclaughry', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (74, '1234641', 'Gordon', 'Johnson', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (75, '1234642', 'John', 'Aita', 10, 6, 3, 1);
+INSERT INTO utilisateurs VALUES (76, '1234643', 'Nicholas', 'Fischer', 10, 6, 3, 1);
+
+# G5
+
+INSERT INTO utilisateurs VALUES (77, '1234644', 'Valentin', 'Baglan', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (78, '1234645', 'Suzy', 'Da Silva', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (79, '1234646', 'Julien', 'Dilly', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (80, '1234647', 'Florian', 'Escande', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (81, '1234648', 'Noe', 'Germe', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (82, '1234649', 'Killian', 'Lefrancois', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (83, '1234650', 'Remi', 'Mahieux', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (84, '1234651', 'Lucas', 'Nogueira', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (85, '1234652', 'Enzo', 'Pinchon', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (86, '1234653', 'Antoine', 'Roussel', 10, 7, 3, 1);
+INSERT INTO utilisateurs VALUES (87, '1234654', 'Erwann', 'Vitte', 10, 7, 3, 1);
