@@ -1,6 +1,7 @@
 <?php
 require 'requests.php';
 
+$codeRetour = 403;
 $perm = 3;
 
 if ($perm == 3){
@@ -20,8 +21,16 @@ if ($perm == 3){
     });
 
     Flight::route('GET /bonjour', function () {
-        $iddececonnard = getUserIdByToken("1234568");
-        Flight::json($iddececonnard);
+        setPermUser(Flight::request()->headers);
+        if (Flight::get('permUser') == 1){
+            $codeRetour = 200;
+            $iddececonnard = getUserIdByToken("1234568");
+            Flight::json($iddececonnard, $codeRetour);
+        }
+        else{
+            $codeRetour = 403;
+            Flight::json("bonjour", $codeRetour);
+        }
     });
 
 }

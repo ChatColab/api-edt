@@ -1,5 +1,4 @@
 <?php
-require 'pdo.php';
 
 //fonction d'éxécution de la requête
 function executeRequest($sql, $params = null) {
@@ -9,9 +8,14 @@ function executeRequest($sql, $params = null) {
         $result = Flight::get('pdo')->prepare($sql);  // requête préparée
         $result->execute($params);
     }
-    return $result->fetchAll();
+    // retourne un tableau d'enregistrements
+    if ($result->columnCount() == 1) {
+        $data = $result->fetchColumn();
+    } else {
+        $data = $result->fetchAll();
+    }
+    return $data;
 }
-
 function executeRequestJson($sql, $params = null) {
     if ($params == null) {
         $result = Flight::get('pdo')->query($sql);    // exécution directe
@@ -19,14 +23,13 @@ function executeRequestJson($sql, $params = null) {
         $result = Flight::get('pdo')->prepare($sql);  // requête préparée
         $result->execute($params);
     }
-    //return as json
-    return $result->fetchAll(PDO::FETCH_ASSOC);
+    return $result->fetchAll();
 }
 
 //déclaration des fonctions pour les requêtes sql
-function getRole($token){
-    $sql = "";
-    return executeRequest($sql, array($token));
+function getLibelleRoleByToken($token){
+    $sql = "select libelle_role from roles r, utilisateurs u where u.id_role = r.id_role and u.token_utilisateur = :token";
+    return executeRequest($sql, array('token' => $token));
 }
 
 function getUserIdByToken($token){
