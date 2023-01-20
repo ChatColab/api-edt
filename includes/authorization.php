@@ -1,5 +1,4 @@
 <?php
-require 'requests.php';
 
  // récupérer le token d'authentification de la requête
 function getBearerToken(){

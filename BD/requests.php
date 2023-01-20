@@ -37,6 +37,11 @@ function getUserIdByToken($token){
     return executeRequest($sql, array('token' => $token));
 }
 
+//function getEDTTest(){
+//    $sql = "SELECT c.id_cours, c.libelle_cours, c.jour_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = 9 and ca.semaine = 1 and ca.annee = 2023;";
+//    return executeRequestJson($sql);
+//}
+
 function getEDT($user_id, $week = null, $day = null): string
 {
     if ($day != null){

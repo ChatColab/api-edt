@@ -9,8 +9,9 @@ require 'includes/flight-master/flight/Flight.php';
 
 Flight::set('permUser', 0);
 
+require 'BD/requests.php';
 require 'includes/authorization.php';
-require 'includes/pdo.php';
+require 'BD/pdo.php';
 
 setPermUser();
 
