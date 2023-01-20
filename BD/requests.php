@@ -42,19 +42,18 @@ function getUserIdByToken($token){
 //    return executeRequestJson($sql);
 //}
 
-function getEDT($user_id, $week = null, $day = null): string
+function getEDTByGroup($grpId, $year, $week = null, $day = null)
 {
     if ($day != null){
         $sql = "";
     }
 
     else if ($week != null){
-        $sql = "";
+        $sql = "SELECT c.id_cours, c.libelle_cours, c.jour_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year;";
+        return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week));
     }
 
     else {
         $sql = "";
     }
-
-    return executeRequestJson($sql, array($user_id, $week, $day));
 }
