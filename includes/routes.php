@@ -35,6 +35,14 @@ if (Flight::get('permUser') >= 1){
         echo Flight::json(getEDTByGroup($numGroupe, $convert[0], $convert[1], $convert[2]));
     });
 
+    Flight::route('GET /edt_grp-@numGroupe-@week/@year', function ($numGroupe, $week, $day, $year) {
+        echo Flight::json(getEDTByGroup($numGroupe, $year, $week, $day));
+    });
+
+    Flight::route('GET /edt_grp-@numGroupe-@week-@day/@year', function ($numGroupe, $week, $day, $year) {
+        echo Flight::json(getEDTByGroup($numGroupe, $year, $week, $day));
+    });
+
     Flight::route('GET /edt_grp-@numGroupe-@week-@day', function ($numGroupe, $week, $day) {
         echo Flight::json(getEDTByGroup($numGroupe, getCurrentYear(), $week, $day));
     });
@@ -47,26 +55,40 @@ if (Flight::get('permUser') >= 1){
         echo Flight::json(getEDTByGroup($numGroupe, getCurrentYear(), getCurrentWeek(), null));
     });
 
+
+
     //get edt of asking user
     Flight::route('GET /edt/@date', function ($date) {
         $convert = getDateConverted($date);
-        echo Flight::json(getEDTByUser(Flight::get('permUser'), $convert[1], $convert[2]));
+        echo Flight::json(getEDTByUser(Flight::get('idUser'), $convert[0], $convert[1], $convert[2]));
     });
 
-    Flight::route('GET /edt', function () {
-        $json = getEDT(Flight::get('idUser'), getCurrentWeek(), null);
+    Flight::route('GET /edt-@week-@day/@year', function ($week, $day, $year) {
+        $json = getEDTByUser(Flight::get('idUser'), $year, $week, $day);
         Flight::json($json);
     });
 
-    Flight::route('GET /edt-@week', function ($week) {
-        $json = getEDTByUser(Flight::get('idUser'), $week, null);
+    Flight::route('GET /edt-@week/@year', function ($week, $year) {
+        $json = getEDTByUser(Flight::get('idUser'), $year, $week, null);
         Flight::json($json);
     });
 
     Flight::route('GET /edt-@week-@day', function ($week, $day) {
-        $json = getEDTByUser(Flight::get('idUser'), $week, $day);
+        $json = getEDTByUser(Flight::get('idUser'), getCurrentYear(), $week, $day);
         Flight::json($json);
     });
+
+    Flight::route('GET /edt-@week', function ($week) {
+        $json = getEDTByUser(Flight::get('idUser'), getCurrentYear(), $week, null);
+        Flight::json($json);
+    });
+
+    Flight::route('GET /edt', function () {
+        $json = getEDTByUser(Flight::get('idUser'), getCurrentYear(), getCurrentWeek(), null);
+        Flight::json($json);
+    });
+
+
 
     if (Flight::get('permUser') == 2){
 
@@ -80,19 +102,32 @@ if (Flight::get('permUser') == 3){
     //get edt by user
     Flight::route('GET /edt_user@numUser/@date', function ($numUser, $date) {
         $convert = getDateConverted($date);
-        echo Flight::json(getEDTByUser($numUser, $convert[1], $convert[2]));
+        echo Flight::json(getEDTByUser($numUser, $convert[0], $convert[1], $convert[2]));
     });
 
-    Flight::route('GET /edt_user@numUser', function ($numUser) {
-        echo Flight::json(getEDTByGroup($numUser, getCurrentWeek(), null));
+    Flight::route('GET /edt_user@numUser-@week-@day/@year', function ($numUser, $week, $day, $year) {
+        $json = getEDTByUser($numUser, $year, $week, $day);
+        Flight::json($json);
     });
 
-    Flight::route('GET /edt_user@numUser-@week', function ($numUser, $week) {
-        echo Flight::json(getEDTByGroup($numUser, $week, null));
+    Flight::route('GET /edt_user@numUser-@week/@year', function ($numUser, $week, $year) {
+        $json = getEDTByUser($numUser, $year, $week, null);
+        Flight::json($json);
     });
 
     Flight::route('GET /edt_user@numUser-@week-@day', function ($numUser, $week, $day) {
-        echo Flight::json(getEDTByGroup($numUser, $week, $day));
+        $json = getEDTByUser($numUser, getCurrentYear(), $week, $day);
+        Flight::json($json);
+    });
+
+    Flight::route('GET /edt_user@numUser-@week', function ($numUser, $week) {
+        $json = getEDTByUser($numUser, getCurrentYear(), $week, null);
+        Flight::json($json);
+    });
+
+    Flight::route('GET /edt_user@numUser', function ($numUser) {
+        $json = getEDTByUser($numUser, getCurrentYear(), getCurrentWeek(), null);
+        Flight::json($json);
     });
 
 

@@ -32,28 +32,52 @@ function getLibelleRoleByToken($token){
     return executeRequest($sql, array('token' => $token));
 }
 
+function getGroupesByUserId($id){
+    $sql = "select id_groupe from utilisateurs where id_utilisateur = :id";
+    return executeRequest($sql, array('id' => $id));
+}
+
+function getIdRoleByUserId($id){
+    $sql = "select id_role from utilisateurs where id_utilisateur = :id";
+    return executeRequest($sql, array('id' => $id));
+}
+
 function getUserIdByToken($token){
     $sql = "select id_utilisateur from utilisateurs where token_utilisateur = :token";
     return executeRequest($sql, array('token' => $token));
 }
 
-//function getEDTTest(){
-//    $sql = "SELECT c.id_cours, c.libelle_cours, c.jour_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = 9 and ca.semaine = 1 and ca.annee = 2023;";
-//    return executeRequestJson($sql);
-//}
-
 function getEDTByGroup($grpId, $year, $week = null, $day = null)
 {
+    //edt pour un jour
     if ($day != null){
-        $sql = "";
+        $sql = "SELECT c.id_cours, c.libelle_cours, c.jour_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year and c.jour_cours = :day;";
+        return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week, 'day' => $day));
     }
 
+    //edt pour une semaine
     else if ($week != null){
         $sql = "SELECT c.id_cours, c.libelle_cours, c.jour_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year;";
         return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week));
     }
 
+    //edt pour un an
     else {
-        $sql = "";
+        $sql = "SELECT c.id_cours, c.libelle_cours, c.jour_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.annee = :year;";
+        return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year));
+    }
+}
+
+function getEDTByUser($userId, $year, $week = null, $day = null)
+{
+    $groupUser = getGroupesByUserId($userId);
+
+    if ($groupUser != 1) {
+        //edt pour un élève
+        return getEDTByGroup($groupUser, $year, $week, $day);
+    }
+    else{
+        //edt pour un prof
+
     }
 }
