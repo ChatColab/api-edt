@@ -7,27 +7,26 @@ function getDateConverted($input){
     $day = $date->format("D");
     switch ($day){
         case "Mon":
-            $day = 1;
+            $day = 0;
             break;
         case "Tue":
-            $day = 2;
+            $day = 1;
             break;
         case "Wed":
-            $day = 3;
+            $day = 2;
             break;
         case "Thu":
-            $day = 4;
+            $day = 3;
             break;
         case "Fri":
-            $day = 5;
+            $day = 4;
             break;
         case "Sat":
-            $day = 6;
+            $day = 5;
             break;
         case "Sun":
-            $day = 7;
+            $day = 6;
             break;
-
     }
     $result = [ (int)$year, (int)$week, (int)$day ];
     return $result;
