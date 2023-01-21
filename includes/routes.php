@@ -134,14 +134,14 @@ if (Flight::get('permUser') == 3){
     Flight::route('GET /users', function(){
         echo Flight::json(getUsers());
     });
-    Flight::route('GET /users?id=@userId', function($userId){
+    Flight::route('GET /users/id=@userId', function($userId){
         echo Flight::json(getUserById($userId));
     });
-    Flight::route('GET /users?nom=@userNom', function($userNom){
+    Flight::route('GET /users/nom=@userNom', function($userNom){
         echo Flight::json(getUserByName($userNom));
     });
-    Flight::route('GET /users?prenom=@userPrenom', function($userPrenom){
-        echo Flight::json(getUserById($userPrenom));
+    Flight::route('GET /users/prenom=@userPrenom', function($userPrenom){
+        echo Flight::json(getUserByFirstName($userPrenom));
     });
 
     //modifications

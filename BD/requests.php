@@ -101,3 +101,23 @@ function getEDTByUser($userId, $year, $week = null, $day = null)
         return getEDTProf($userId, $year, $week, $day);
     }
 }
+
+function getUsers(){
+    $sql ="select * from utilisateurs;";
+    return executeRequestJson($sql, null);
+}
+
+function getUserById($userId){
+    $sql = "select * from utilisateurs where id_utilisateur = :userId";
+    return executeRequestJson($sql, array('userId' => $userId));
+}
+
+function getUserByName($userName){
+    $sql = "select * from utilisateurs where nom_utilisateur = :userName";
+    return executeRequestJson($sql, array('userName' => $userName));
+}
+
+function getUserByFirstName($userName){
+    $sql = "select * from utilisateurs where prenom_utilisateur = :userName";
+    return executeRequestJson($sql, array('userName' => $userName));
+}

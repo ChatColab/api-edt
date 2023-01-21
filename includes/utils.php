@@ -1,8 +1,35 @@
 <?php
 
-function getDateConverted($date){
-    $date = explode('-', $date);
-    $result = [ (int)$date[0], (int)$date[1], (int)$date[2] ];
+function getDateConverted($input){
+    $date = new DateTime($input);
+    $year = $date->format("Y");
+    $week = $date->format("W");
+    $day = $date->format("D");
+    switch ($day){
+        case "Mon":
+            $day = 1;
+            break;
+        case "Tue":
+            $day = 2;
+            break;
+        case "Wed":
+            $day = 3;
+            break;
+        case "Thu":
+            $day = 4;
+            break;
+        case "Fri":
+            $day = 5;
+            break;
+        case "Sat":
+            $day = 6;
+            break;
+        case "Sun":
+            $day = 7;
+            break;
+
+    }
+    $result = [ (int)$year, (int)$week, (int)$day ];
     return $result;
 }
 
