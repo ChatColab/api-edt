@@ -4,21 +4,21 @@ require 'utils.php';
 if (Flight::get('permUser') == 0) {
 
     //get edt by group without teacher name
-    Flight::route('GET /edt_grp-@numGroupe/@date', function ($numGroupe, $date) {
+    Flight::route('GET /edt_grp@numGroupe/@date', function ($numGroupe, $date) {
         $convert = getDateConverted($date);
         Flight::json(getEDTByGroupNoName($numGroupe, $convert[0], $convert[1], $convert[2]));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe', function ($numGroupe) {
-        Flight::json(getEDTByGroupNoName($numGroupe, getCurrentYear(), getCurrentWeek(), null));
+    Flight::route('GET /edt_grp@numGroupe-@week-@day', function ($numGroupe, $week, $day) {
+        Flight::json(getEDTByGroupNoName($numGroupe, getCurrentYear(), $week, $day));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe-@week', function ($numGroupe, $week) {
+    Flight::route('GET /edt_grp@numGroupe-@week', function ($numGroupe, $week) {
         Flight::json(getEDTByGroupNoName($numGroupe, getCurrentYear(), $week, null));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe-@week-@day', function ($numGroupe, $week, $day) {
-        Flight::json(getEDTByGroupNoName($numGroupe, getCurrentYear(), $week, $day));
+    Flight::route('GET /edt_grp@numGroupe', function ($numGroupe) {
+        Flight::json(getEDTByGroupNoName($numGroupe, getCurrentYear(), getCurrentWeek(), null));
     });
 
 }
@@ -26,28 +26,28 @@ if (Flight::get('permUser') == 0) {
 if (Flight::get('permUser') >= 1){
 
     //get edt by group
-    Flight::route('GET /edt_grp-@numGroupe/@date', function ($numGroupe, $date) {
+    Flight::route('GET /edt_grp@numGroupe/@date', function ($numGroupe, $date) {
         $convert = getDateConverted($date);
         Flight::json(getEDTByGroup($numGroupe, $convert[0], $convert[1], $convert[2]));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe-@week/@year', function ($numGroupe, $week, $day, $year) {
+    Flight::route('GET /edt_grp@numGroupe-@week/@year', function ($numGroupe, $week, $day, $year) {
         Flight::json(getEDTByGroup($numGroupe, $year, $week, $day));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe-@week-@day/@year', function ($numGroupe, $week, $day, $year) {
+    Flight::route('GET /edt_grp@numGroupe-@week-@day/@year', function ($numGroupe, $week, $day, $year) {
         Flight::json(getEDTByGroup($numGroupe, $year, $week, $day));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe-@week-@day', function ($numGroupe, $week, $day) {
+    Flight::route('GET /edt_grp@numGroupe-@week-@day', function ($numGroupe, $week, $day) {
         Flight::json(getEDTByGroup($numGroupe, getCurrentYear(), $week, $day));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe-@week', function ($numGroupe, $week) {
+    Flight::route('GET /edt_grp@numGroupe-@week', function ($numGroupe, $week) {
         Flight::json(getEDTByGroup($numGroupe, getCurrentYear(), $week, null));
     });
 
-    Flight::route('GET /edt_grp-@numGroupe', function ($numGroupe) {
+    Flight::route('GET /edt_grp@numGroupe', function ($numGroupe) {
         Flight::json(getEDTByGroup($numGroupe, getCurrentYear(), getCurrentWeek(), null));
     });
 

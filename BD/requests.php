@@ -47,24 +47,47 @@ function getUserIdByToken($token){
     return executeRequest($sql, array('token' => $token));
 }
 
+function getEDTByGroupNoName($grpId, $year, $week = null, $day = null)
+{
+    if($grpId !=1) {
+        //edt pour un jour
+        if ($day != null) {
+            $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year and c.jour_cours = :day;";
+            return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week, 'day' => $day));
+        } //edt pour une semaine
+        else if ($week != null) {
+            $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year;";
+            return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week));
+        } //edt pour un an
+        else {
+            $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.annee = :year;";
+            return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year));
+        }
+    }
+    else{
+        return "Erreur : le groupe 1 est le groupe enseignant, il n'a pas d'emploi du temps";
+    }
+}
+
 function getEDTByGroup($grpId, $year, $week = null, $day = null)
 {
-    //edt pour un jour
-    if ($day != null){
-        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year and c.jour_cours = :day;";
-        return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week, 'day' => $day));
+    if($grpId != 1) {
+        //edt pour un jour
+        if ($day != null) {
+            $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours, u.prenom_utilisateur as prenom_professeur, u.nom_utilisateur as nom_professeur FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN utilisateurs u ON ens.id_utilisateur = u.id_utilisateur WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year and c.jour_cours = :day;";
+            return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week, 'day' => $day));
+        } //edt pour une semaine
+        else if ($week != null) {
+            $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours, u.prenom_utilisateur as prenom_professeur, u.nom_utilisateur as nom_professeur FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN utilisateurs u ON ens.id_utilisateur = u.id_utilisateur WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year;";
+            return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week));
+        } //edt pour un an
+        else {
+            $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours, u.prenom_utilisateur as prenom_professeur, u.nom_utilisateur as nom_professeur FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN utilisateurs u ON ens.id_utilisateur = u.id_utilisateur WHERE g.id_groupe = :grpId and ca.annee = :year;";
+            return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year));
+        }
     }
-
-    //edt pour une semaine
-    else if ($week != null){
-        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.semaine = :week and ca.annee = :year;";
-        return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year, 'week' => $week));
-    }
-
-    //edt pour un an
-    else {
-        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = :grpId and ca.annee = :year;";
-        return executeRequestJson($sql, array('grpId' => $grpId, 'year' => $year));
+    else{
+        return "Erreur : le groupe 1 est le groupe enseignant, il n'a pas d'emploi du temps";
     }
 }
 
