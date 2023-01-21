@@ -33,31 +33,14 @@ function getDateConverted($input){
 }
 
 function getJour($numJour){
-    $jour = "";
-    switch ($numJour){
-        case 0:
-            $jour = "Lundi";
-            break;
-        case 1:
-            $jour = "Mardi";
-            break;
-        case 2:
-            $jour = "Mercredi";
-            break;
-        case 3:
-            $jour = "Jeudi";
-            break;
-        case 4:
-            $jour = "Vendredi";
-            break;
-        case 5:
-            $jour = "Samedi";
-            break;
-        case 6:
-            $jour = "Dimanche";
-            break;
+    $jours = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+    return $jours[$numJour];
+}
+
+function jourClair($edt){
+    for ($i = 0; $i < count($edt); $i++) {
+        $edt[$i]["jour_cours"] = getJour($edt[$i]["jour_cours"]);
     }
-    return $jour;
 }
 
 function getCurrentWeek() {
