@@ -103,7 +103,28 @@ if (Flight::get('permUser') >= 1){
 
         //get indisponibilites of asking user
         Flight::route('GET /indisponibilites', function(){
-            Flight::json(getIndisponibilites(Flight::get('idUser')));
+            $result = getIndisponibilites(Flight::get('idUser'));
+
+            $cal_deb = (int)$result[0]->id_calendrier_debut;
+            $cal_fin = (int)$result[0]->id_calendrier_fin;
+
+            $date_deb = getDateByIdCalendrier($cal_deb);
+            $date_fin = getDateByIdCalendrier($cal_fin);
+
+            $year_deb = (int)$date_deb[0]->annee;
+            $year_fin = (int)$date_fin[0]->annee;
+            $week_deb = (int)$date_deb[0]->semaine;
+            $week_fin = (int)$date_fin[0]->semaine;
+            $day_deb = (int)$result[0]->jour_debut_indisponibilite;
+            $day_fin = (int)$result[0]->jour_fin_indisponibilite;
+
+            $date_lisible_deb = getDateConvertedBack([$year_deb, $week_deb, $day_deb]);
+            $date_lisible_fin = getDateConvertedBack([$year_fin, $week_fin, $day_fin]);
+
+            $result[0]->date_debut_lisible = $date_lisible_deb;
+            $result[0]->date_fin_lisible = $date_lisible_fin;
+
+            Flight::json($result);
         });
 
         //indispo pour une journée
