@@ -37,11 +37,11 @@ function getJour($numJour){
     return $jours[$numJour];
 }
 
-function jourClair($edt){
-    for ($i = 0; $i < count($edt); $i++) {
-        $edt[$i]["jour_cours"] = getJour($edt[$i]["jour_cours"]);
-    }
-}
+//function jourClair($edt){
+//    for ($i = 0; $i < count($edt); $i++) {
+//        $edt[$i]["jour_cours"] = getJour($edt[$i]["jour_cours"]);
+//    }
+//}
 
 function getCurrentWeek() {
     $date = new DateTime();

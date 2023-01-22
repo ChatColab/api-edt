@@ -9,6 +9,14 @@ if (Flight::get('permUser') == 0) {
         Flight::json(getEDTByGroupNoName($numGroupe, $convert[0], $convert[1], $convert[2]));
     });
 
+    Flight::route('GET /edt_grp@numGroupe-@week/@year', function ($numGroupe, $week, $day, $year) {
+        Flight::json(getEDTByGroupNoName($numGroupe, $year, $week, $day));
+    });
+
+    Flight::route('GET /edt_grp@numGroupe-@week-@day/@year', function ($numGroupe, $week, $day, $year) {
+        Flight::json(getEDTByGroupNoName($numGroupe, $year, $week, $day));
+    });
+
     Flight::route('GET /edt_grp@numGroupe-@week-@day', function ($numGroupe, $week, $day) {
         Flight::json(getEDTByGroupNoName($numGroupe, getCurrentYear(), $week, $day));
     });
@@ -24,6 +32,10 @@ if (Flight::get('permUser') == 0) {
 }
 
 if (Flight::get('permUser') >= 1){
+
+    Flight::route('GET /info_user', function () {
+        Flight::json(getInfoUser(Flight::get('idUser')));
+    });
 
     //get edt by group
     Flight::route('GET /edt_grp@numGroupe/@date', function ($numGroupe, $date) {
@@ -124,6 +136,25 @@ if (Flight::get('permUser') == 3){
     });
 
 
+    Flight::route('POST /change_grp_user@numUser-@numGroupe', function ($numUser, $numGroupe) {
+        $json = changeGroupUser($numUser, $numGroupe);
+        Flight::json($json);
+    });
+
+    Flight::route('POST /change_role_user@numUser-@numRole', function ($numUser, $numRole) {
+        $json = changeRoleUser($numUser, $numRole);
+        Flight::json($json);
+    });
+
+    Flight::route('POST /change_heure_user@numUser-@nbHeure', function ($numUser, $nbHeure) {
+        $json = changeHeureUser($numUser, $nbHeure);
+        Flight::json($json);
+    });
+
+
+
+
+
     Flight::route('GET /users', function(){
         Flight::json(getUsers());
     });
@@ -135,6 +166,15 @@ if (Flight::get('permUser') == 3){
     });
     Flight::route('GET /users/prenom=@userPrenom', function($userPrenom){
         Flight::json(getUserByFirstName($userPrenom));
+    });
+
+
+    Flight::route('GET /indisponibilites', function(){
+        Flight::json(getIndisponibilites(null));
+    });
+
+    Flight::route('GET /indisponibilites/@idProf', function($idProf){
+        Flight::json(getIndisponibilites($idProf));
     });
 
     //modifications

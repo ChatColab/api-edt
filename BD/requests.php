@@ -144,3 +144,35 @@ function getUserByFirstName($userName){
     $sql = "select * from utilisateurs where prenom_utilisateur = :userName";
     return executeRequestJson($sql, array('userName' => $userName));
 }
+
+function getInfoUser($userId){
+    $sql = "select u.nom_utilisateur, u.prenom_utilisateur, u.heure_par_jour_utilisateur, g.libelle_groupe, r.libelle_role, e.nom_etablissement from utilisateurs u join groupe g on u.id_groupe = g.id_groupe join roles r on u.id_role = r.id_role join etablissement e on u.id_etablissement = e.id_etablissement where u.id_utilisateur = :userId";
+    return executeRequestJson($sql, array('userId' => $userId));
+}
+
+
+function getIndisponibilites($profId = null){
+    if ($profId != null){
+        $sql = "select * from indisponibilite where id_utilisateur = :profId";
+        return executeRequestJson($sql, array('profId' => $profId));
+    }
+    else{
+        $sql = "select * from indisponibilite";
+        return executeRequestJson($sql, null);
+    }
+}
+
+function changeGroupUser($userId, $groupId){
+    $sql = "update utilisateurs set id_groupe = :groupId where id_utilisateur = :userId";
+    return executeRequestJson($sql, array('userId' => $userId, 'groupId' => $groupId));
+}
+
+function changeRoleUser($userId, $roleId){
+    $sql = "update utilisateurs set id_role = :roleId where id_utilisateur = :userId";
+    return executeRequestJson($sql, array('userId' => $userId, 'roleId' => $roleId));
+}
+
+function changeHeureUser($userId, $nbHeure){
+    $sql = "update utilisateurs set heure_par_jour_utilisateur = :nbHeure where id_utilisateur = :userId";
+    return executeRequestJson($sql, array('userId' => $userId, 'nbHeure' => $nbHeure));
+}
