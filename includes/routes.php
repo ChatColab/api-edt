@@ -102,29 +102,32 @@ if (Flight::get('permUser') >= 1){
     if (Flight::get('permUser') == 2) {
 
         //get indisponibilites of asking user
-        Flight::route('GET /indisponibilites', function(){
-            $result = getIndisponibilites(Flight::get('idUser'));
+        Flight::route('GET /indisponibilites', function() {
 
-            $cal_deb = (int)$result[0]->id_calendrier_debut;
-            $cal_fin = (int)$result[0]->id_calendrier_fin;
+            $result = getIndisponibilites(null);
 
-            $date_deb = getDateByIdCalendrier($cal_deb);
-            $date_fin = getDateByIdCalendrier($cal_fin);
+            if ($result != null) {
+                for ($i = 0; $i < sizeof($result); $i++) {
+                    $cal_deb = (int)$result[$i]->id_calendrier_debut;
+                    $cal_fin = (int)$result[$i]->id_calendrier_fin;
 
-            $year_deb = (int)$date_deb[0]->annee;
-            $year_fin = (int)$date_fin[0]->annee;
-            $week_deb = (int)$date_deb[0]->semaine;
-            $week_fin = (int)$date_fin[0]->semaine;
-            $day_deb = (int)$result[0]->jour_debut_indisponibilite;
-            $day_fin = (int)$result[0]->jour_fin_indisponibilite;
+                    $date_deb = getDateByIdCalendrier($cal_deb);
+                    $date_fin = getDateByIdCalendrier($cal_fin);
 
-            $date_lisible_deb = getDateConvertedBack([$year_deb, $week_deb, $day_deb]);
-            $date_lisible_fin = getDateConvertedBack([$year_fin, $week_fin, $day_fin]);
+                    $year_deb = (int)$date_deb[0]->annee;
+                    $year_fin = (int)$date_fin[0]->annee;
+                    $week_deb = (int)$date_deb[0]->semaine;
+                    $week_fin = (int)$date_fin[0]->semaine;
+                    $day_deb = (int)$result[$i]->jour_debut_indisponibilite;
+                    $day_fin = (int)$result[$i]->jour_fin_indisponibilite;
 
-            $result[0]->date_debut_lisible = $date_lisible_deb;
-            $result[0]->date_fin_lisible = $date_lisible_fin;
+                    $date_lisible_deb = getDateConvertedBack([$year_deb, $week_deb, $day_deb]);
+                    $date_lisible_fin = getDateConvertedBack([$year_fin, $week_fin, $day_fin]);
 
-            Flight::json($result);
+                    $result[$i]->date_debut_lisible = $date_lisible_deb;
+                    $result[$i]->date_fin_lisible = $date_lisible_fin;
+                }
+            }
         });
 
         //indispo pour une journée
@@ -134,6 +137,40 @@ if (Flight::get('permUser') >= 1){
             $json = addIndisponibilite(Flight::get('idUser'), null, null, $convert[2], $convert[2], $convert[1], $convert[1], $convert[0], $convert[0]);
             Flight::json($json);
         });
+
+        Flight::route('POST /indisponibilites/add/date=@date/heure_deb=@h_deb/heure_fin=@h_fin', function($date, $h_deb, $h_fin){
+            $convert = getDateConverted($date);
+
+            $json = addIndisponibilite(Flight::get('idUser'), $h_deb, $h_fin, $convert[2], $convert[2], $convert[1], $convert[1], $convert[0], $convert[0]);
+            Flight::json($json);
+        });
+
+        Flight::route('POST /indisponibilites/add/date_deb=@date_deb/date_fin=@date_fin/heure_deb=@h_deb/heure_fin=@h_fin', function($date_deb, $date_fin, $h_deb, $h_fin){
+            $convert = getDateConverted($date_deb);
+            $convert_fin = getDateConverted($date_fin);
+
+            $json = addIndisponibilite(Flight::get('idUser'), $h_deb, $h_fin, $convert[2], $convert_fin[2], $convert[1], $convert_fin[1], $convert[0], $convert_fin[0]);
+            Flight::json($json);
+        });
+
+        Flight::route('POST /indisponibilites/add/date_deb=@date_deb/date_fin=@date_fin', function($date_deb, $date_fin){
+            $convert = getDateConverted($date_deb);
+            $convert_fin = getDateConverted($date_fin);
+
+            $json = addIndisponibilite(Flight::get('idUser'), null, null, $convert[2], $convert_fin[2], $convert[1], $convert_fin[1], $convert[0], $convert_fin[0]);
+            Flight::json($json);
+        });
+
+        Flight::route('POST /indisponibilites/remove/@idIndispo', function($idIndispo){
+            if (Flight::get('idUser') == getIdUserByIdIndispo($idIndispo)){
+                $json = removeIndisponibilite($idIndispo);
+                Flight::json($json);
+            }
+            else{
+                Flight::json("Cette indisponibilité n'est pas la votre", 403);
+            }
+        });
+
     }
 
 }
@@ -205,16 +242,97 @@ if (Flight::get('permUser') == 3){
         Flight::json(getUserByFirstName($userPrenom));
     });
 
+    Flight::route('POST /indisponibilites/add/date=@date/id_user=@idProf', function($date, $idProf){
+        $convert = getDateConverted($date);
+
+        $json = addIndisponibilite($idProf, null, null, $convert[2], $convert[2], $convert[1], $convert[1], $convert[0], $convert[0]);
+        Flight::json($json);
+    });
+
+    Flight::route('POST /indisponibilites/add/date=@date/heure_deb=@h_deb/heure_fin=@h_fin/id_user=@idProf', function($date, $h_deb, $h_fin, $idProf){
+        $convert = getDateConverted($date);
+
+        $json = addIndisponibilite($idProf, $h_deb, $h_fin, $convert[2], $convert[2], $convert[1], $convert[1], $convert[0], $convert[0]);
+        Flight::json($json);
+    });
+
+    Flight::route('POST /indisponibilites/add/date_deb=@date_deb/date_fin=@date_fin/heure_deb=@h_deb/heure_fin=@h_fin/id_user=@idProf', function($date_deb, $date_fin, $h_deb, $h_fin, $idProf){
+        $convert = getDateConverted($date_deb);
+        $convert_fin = getDateConverted($date_fin);
+
+        $json = addIndisponibilite($idProf, $h_deb, $h_fin, $convert[2], $convert_fin[2], $convert[1], $convert_fin[1], $convert[0], $convert_fin[0]);
+        Flight::json($json);
+    });
+
+    Flight::route('POST /indisponibilites/add/date_deb=@date_deb/date_fin=@date_fin/id_user=@idProf', function($date_deb, $date_fin, $idProf){
+        $convert = getDateConverted($date_deb);
+        $convert_fin = getDateConverted($date_fin);
+
+        $json = addIndisponibilite($idProf, null, null, $convert[2], $convert_fin[2], $convert[1], $convert_fin[1], $convert[0], $convert_fin[0]);
+        Flight::json($json);
+    });
+
+    Flight::route('POST /indisponibilites/remove/@idIndispo', function($idIndispo){
+        $json = removeIndisponibilite($idIndispo);
+        Flight::json($json);
+    });
 
     Flight::route('GET /indisponibilites', function(){
-        Flight::json(getIndisponibilites(null));
+        $result = getIndisponibilites(null);
+
+        if ($result != null) {
+            for ($i=0; $i<sizeof($result); $i++){
+                $cal_deb = (int)$result[$i]->id_calendrier_debut;
+                $cal_fin = (int)$result[$i]->id_calendrier_fin;
+
+                $date_deb = getDateByIdCalendrier($cal_deb);
+                $date_fin = getDateByIdCalendrier($cal_fin);
+
+                $year_deb = (int)$date_deb[0]->annee;
+                $year_fin = (int)$date_fin[0]->annee;
+                $week_deb = (int)$date_deb[0]->semaine;
+                $week_fin = (int)$date_fin[0]->semaine;
+                $day_deb = (int)$result[$i]->jour_debut_indisponibilite;
+                $day_fin = (int)$result[$i]->jour_fin_indisponibilite;
+
+                $date_lisible_deb = getDateConvertedBack([$year_deb, $week_deb, $day_deb]);
+                $date_lisible_fin = getDateConvertedBack([$year_fin, $week_fin, $day_fin]);
+
+                $result[$i]->date_debut_lisible = $date_lisible_deb;
+                $result[$i]->date_fin_lisible = $date_lisible_fin;
+            }
+        }
+
+        Flight::json($result);
     });
 
-    Flight::route('GET /indisponibilites/@idProf', function($idProf){
-        Flight::json(getIndisponibilites($idProf));
+    Flight::route('GET /indisponibilites/id_user=@idProf', function($idProf){
+        $result = getIndisponibilites($idProf);
+
+        if ($result != null) {
+            for ($i=0; $i<sizeof($result); $i++){
+                $cal_deb = (int)$result[$i]->id_calendrier_debut;
+                $cal_fin = (int)$result[$i]->id_calendrier_fin;
+
+                $date_deb = getDateByIdCalendrier($cal_deb);
+                $date_fin = getDateByIdCalendrier($cal_fin);
+
+                $year_deb = (int)$date_deb[0]->annee;
+                $year_fin = (int)$date_fin[0]->annee;
+                $week_deb = (int)$date_deb[0]->semaine;
+                $week_fin = (int)$date_fin[0]->semaine;
+                $day_deb = (int)$result[$i]->jour_debut_indisponibilite;
+                $day_fin = (int)$result[$i]->jour_fin_indisponibilite;
+
+                $date_lisible_deb = getDateConvertedBack([$year_deb, $week_deb, $day_deb]);
+                $date_lisible_fin = getDateConvertedBack([$year_fin, $week_fin, $day_fin]);
+
+                $result[$i]->date_debut_lisible = $date_lisible_deb;
+                $result[$i]->date_fin_lisible = $date_lisible_fin;
+            }
+        }
+
+        Flight::json($result);
     });
 
-    //modifications
-//    Flight::route('POST /modif')
-    
 }

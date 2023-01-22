@@ -156,9 +156,19 @@ function getIdCalendrier($week, $year){
     return (int)$result;
 }
 
+function getIdUserByIdIndispo($idIndispo){
+    $sql = "select id_utilisateur from indisponibilite where id_indisponibilite = :idIndispo;";
+    $result = executeRequest($sql, array('idIndispo' => $idIndispo));
+}
+
 function getDateByIdCalendrier($idCalendrier){
     $sql = "select * from calendrier where id_calendrier = :idCalendrier";
     return executeRequestJson($sql, array('idCalendrier' => $idCalendrier));
+}
+
+function removeIndisponibilite($id){
+    $sql = "delete from indisponibilite where id_indisponibilite = :id;";
+    return executeRequestJson($sql, array('id' => $id));
 }
 
 function addIndisponibilite($id_user, $h_deb = null, $h_fin = null, $j_deb, $j_fin, $s_deb, $s_fin, $a_deb, $a_fin){
