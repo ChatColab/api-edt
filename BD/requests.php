@@ -150,6 +150,25 @@ function getInfoUser($userId){
     return executeRequestJson($sql, array('userId' => $userId));
 }
 
+function getIdCalendrier($week, $year){
+    $sql = "select id_calendrier from calendrier where semaine = :week and annee = :year";
+    $result = executeRequest($sql, array('week' => $week, 'year' => $year));
+    return (int)$result;
+}
+
+function addIndisponibilite($id_user, $h_deb = null, $h_fin = null, $j_deb, $j_fin, $s_deb, $s_fin, $a_deb, $a_fin){
+
+    if ($h_deb == null){
+        $h_deb = "00:00:00";
+        $h_fin = "23:59:59";
+    }
+    $id_cal_deb = getIdCalendrier($s_deb, $a_deb);
+    $id_cal_fin = getIdCalendrier($s_fin, $a_fin);
+
+    $sql = "insert into indisponibilite (id_utilisateur, id_calendrier_debut, id_calendrier_fin, heure_debut_indisponibilite, heure_fin_indisponibilite, jour_debut_indisponibilite, jour_fin_indisponibilite) values (:id_user, :id_cal_deb, :id_cal_fin, :h_deb, :h_fin, :j_deb, :j_fin);";
+    
+    return executeRequestJson($sql, array('id_user' => $id_user, 'id_cal_deb' => $id_cal_deb, 'id_cal_fin' => $id_cal_fin, 'h_deb' => $h_deb, 'h_fin' => $h_fin, 'j_deb' => $j_deb, 'j_fin' => $j_fin));
+}
 
 function getIndisponibilites($profId = null){
     if ($profId != null){

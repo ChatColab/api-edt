@@ -99,6 +99,22 @@ if (Flight::get('permUser') >= 1){
 
     }
 
+    if (Flight::get('permUser') == 2) {
+
+        //get indisponibilites of asking user
+        Flight::route('GET /indisponibilites', function(){
+            Flight::json(getIndisponibilites(Flight::get('idUser')));
+        });
+
+        //indispo pour une journée
+        Flight::route('POST /indisponibilites/add/date=@date', function($date){
+            $convert = getDateConverted($date);
+
+            $json = addIndisponibilite(Flight::get('idUser'), null, null, $convert[2], $convert[2], $convert[1], $convert[1], $convert[0], $convert[0]);
+            Flight::json($json);
+        });
+    }
+
 }
 
 

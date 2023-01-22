@@ -1,5 +1,17 @@
 <?php
 
+function getDateConvertedBack($input){
+    $year = $input[0];
+    $week = $input[1];
+    $day = $input[2];
+    $date = new DateTime();
+    $date->setISODate($year, $week);
+    $day_name = array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+    $day_name = $day_name[$day];
+    $date->modify("next $day_name");
+    return $date->format("Y-m-d");
+}
+
 function getDateConverted($input){
     $date = new DateTime($input);
     $year = $date->format("Y");
@@ -36,12 +48,6 @@ function getJour($numJour){
     $jours = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
     return $jours[$numJour];
 }
-
-//function jourClair($edt){
-//    for ($i = 0; $i < count($edt); $i++) {
-//        $edt[$i]["jour_cours"] = getJour($edt[$i]["jour_cours"]);
-//    }
-//}
 
 function getCurrentWeek() {
     $date = new DateTime();
