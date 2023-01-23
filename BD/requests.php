@@ -33,7 +33,7 @@ function getLibelleRoleByToken($token){
 }
 
 function getGroupesByUserId($id){
-    $sql = "select id_groupe from utilisateurs where id_utilisateur = :id";
+    $sql = "select libelle_groupe from utilisateurs u, groupe g where id_utilisateur = :id and u.id_groupe = g.id_groupe";
     return executeRequest($sql, array('id' => $id));
 }
 
@@ -49,6 +49,8 @@ function getUserIdByToken($token){
 
 function getEDTByGroupNoName($grpId, $year, $week = null, $day = null)
 {
+    $grpId = getIdGroupByNumGroup($grpId);
+
     if($grpId !=1) {
         //edt pour un jour
         if ($day != null) {
@@ -69,8 +71,15 @@ function getEDTByGroupNoName($grpId, $year, $week = null, $day = null)
     }
 }
 
-function getEDTByGroup($grpId, $year, $week = null, $day = null)
+function getIdGroupByNumGroup($grpNum){
+    $sql = "select id_groupe from groupe where libelle_groupe like :search;";
+    return (int)executeRequest($sql, array('search' => '_'.$grpNum.'%'));
+}
+
+function getEDTByGroup($grpNum, $year, $week = null, $day = null)
 {
+    $grpId = getIdGroupByNumGroup($grpNum);
+
     if($grpId != 1) {
         //edt pour un jour
         if ($day != null) {
@@ -94,19 +103,19 @@ function getEDTByGroup($grpId, $year, $week = null, $day = null)
 function getEDTProf($profId, $year, $week = null, $day = null){
     //edt pour un jour
     if ($day != null){
-        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = 1 and ca.semaine = :week and ca.annee = :year and c.jour_cours = :day and ens.id_utilisateur = :profId;";
+        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE ca.semaine = :week and ca.annee = :year and c.jour_cours = :day and ens.id_utilisateur = :profId;";
         return executeRequestJson($sql, array('profId' => $profId, 'year' => $year, 'week' => $week, 'day' => $day));
     }
 
     //edt pour une semaine
     else if ($week != null){
-        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = 1 and ca.semaine = :week and ca.annee = :year and ens.id_utilisateur = :profId;";
+        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE ca.semaine = :week and ca.annee = :year and ens.id_utilisateur = :profId;";
         return executeRequestJson($sql, array('profId' => $profId, 'year' => $year, 'week' => $week));
     }
 
     //edt pour un an
     else {
-        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE g.id_groupe = 1 and ca.annee = :year and ens.id_utilisateur = :profId;";
+        $sql = "SELECT ca.annee, ca.semaine, c.jour_cours, c.libelle_cours, c.heure_debut_cours, c.heure_fin_cours FROM cours c JOIN appartient a ON a.id_cours = c.id_cours JOIN edt e ON e.id_edt = a.id_edt JOIN recoit r ON r.id_cours = c.id_cours JOIN groupe g ON g.id_groupe = r.id_groupe JOIN enseigne ens ON ens.id_matiere = c.id_matiere JOIN calendrier ca ON e.id_edt = ca.id_calendrier WHERE ca.annee = :year and ens.id_utilisateur = :profId;";
         return executeRequestJson($sql, array('profId' => $profId, 'year' => $year));
     }
 }
@@ -115,8 +124,9 @@ function getEDTByUser($userId, $year, $week = null, $day = null)
 {
     $groupUser = getGroupesByUserId($userId);
 
-    if ($groupUser != 1) {
+    if ($groupUser != "Personnel") {
         //edt pour un élève
+        $groupUser = substr($groupUser, 1);
         return getEDTByGroup($groupUser, $year, $week, $day);
     }
     else{
